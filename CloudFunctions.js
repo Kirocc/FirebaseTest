@@ -1,16 +1,18 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { firebaseConfig } from './firebaseConfig';
+import { firebaseConfig } from './firebaseConfig.js';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-export { app, auth };
+const storage = getStorage(app);
+export { app, auth, storage};
 
 
 
 export class CloudFunctionsClass {
   constructor(authInstance) {this.auth = authInstance;}
 
-  registerUser(email, password) {
+ async registerUser(email, password) {
     return createUserWithEmailAndPassword(auth, email, password)
       .then(userCredential => {
         const user = userCredential.user;
@@ -23,7 +25,7 @@ export class CloudFunctionsClass {
       });
   }
 
-  loginUser(email, password) {
+  async loginUser(email, password) {
     return signInWithEmailAndPassword(auth, email, password)
       .then(userCredential => {
         const user = userCredential.user;
