@@ -7,6 +7,11 @@ const auth = getAuth(app);
 const storage = getStorage(app);
 export { app, auth, storage};
 
+// test
+import fs from 'fs';
+
+
+
 
 
 export class CloudFunctionsClass {
@@ -31,7 +36,7 @@ async loginUser(email, password) {
     return signInWithEmailAndPassword(auth, email, password)
       .then(userCredential => {
         const user = userCredential.user;
-        console.log('Inloggad användare:', user);
+        console.log('Inloggad användare:', user.email);
         return user.email;
       })
       .catch(error => {
@@ -40,12 +45,28 @@ async loginUser(email, password) {
       }); 
       }
       
-async uploadImage(file) {
-        const storageRef = ref(storage, 'images/' + file.name);
-        await uploadBytes(storageRef, file);
-        const downloadURL = await getDownloadURL(storageRef);
-        console.log('File available at', downloadURL);
-        return downloadURL;}
+// uploadImage.js
+
+
+ async uploadImage(filePath) {
+  const fileName = filePath.split('/').pop();
+  const file = fs.readFileSync(filePath);
+  const storageRef = ref(storage, 'images/' + fileName);
+
+  await uploadBytes(storageRef, file);
+  const downloadURL = await getDownloadURL(storageRef);
+  console.log('File available at', downloadURL);
+  return downloadURL;
+}
+
+
+
+      // async uploadImage(file) {
+//         const storageRef = ref(storage, 'images/' + file.name);
+//         await uploadBytes(storageRef, file);
+//         const downloadURL = await getDownloadURL(storageRef);
+//         console.log('File available at', downloadURL);
+//         return downloadURL;}
       
 
       

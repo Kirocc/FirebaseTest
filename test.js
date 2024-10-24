@@ -5,19 +5,28 @@ import { auth } from "./CloudFunctions.js";
 
 const service = new CloudFunctionsClass({auth})
 
-service.loginUser("", "password123").then(user => {
-         console.log('Inloggning lyckades:', user.email);
+service.loginUser("sammyringstrom@gmail.com", "password123").then(user => {
+         console.log('Inloggning lyckades:', user.email) 
+         const filePath = 'C:/Users/Sammy/Pictures/hämtning.jpg';
+         service.uploadImage(filePath)
+           .then(downloadURL => {
+             console.log('Image uploaded to:', downloadURL);
+           })
+           .catch(error => {
+             console.error('Upload failed:', error);
+           });
        })
        .catch(error => {
          console.error('Inloggning misslyckades:', error);
        });
 
 
-// import { uploadImage } from './CloudFunctions.js';
 
-// const filePath = './path/to/your/image.jpg';
 
-// uploadImage(filePath)
+
+
+// const filePath = 'C:/Users/Sammy/Pictures/hämtning.jpg';
+// service.uploadImage(filePath)
 //   .then(downloadURL => {
 //     console.log('Image uploaded to:', downloadURL);
 //   })
