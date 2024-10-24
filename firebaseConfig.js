@@ -1,4 +1,4 @@
-
+// this one should be in a secret map / github secrets but doesnt matter under development
 export const firebaseConfig = {
     apiKey: "AIzaSyCkuW5_zHFGjnm_vU8WdiT_d9Iyy42LGuk",
     authDomain: "srfire-67cd6.firebaseapp.com",

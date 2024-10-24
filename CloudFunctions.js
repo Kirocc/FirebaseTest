@@ -12,7 +12,7 @@ export { app, auth, storage};
 export class CloudFunctionsClass {
   constructor(authInstance) {this.auth = authInstance;}
 
- async registerUser(email, password) {
+async registerUser(email, password) {
     return createUserWithEmailAndPassword(auth, email, password)
       .then(userCredential => {
         const user = userCredential.user;
@@ -25,18 +25,30 @@ export class CloudFunctionsClass {
       });
   }
 
-  async loginUser(email, password) {
+  
+
+async loginUser(email, password) {
     return signInWithEmailAndPassword(auth, email, password)
       .then(userCredential => {
         const user = userCredential.user;
         console.log('Inloggad användare:', user);
-        return user;
+        return user.email;
       })
       .catch(error => {
         console.error('Fel vid inloggning:', error.code, error.message);
         throw error;
       }); 
       }
+      
+async uploadImage(file) {
+        const storageRef = ref(storage, 'images/' + file.name);
+        await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(storageRef);
+        console.log('File available at', downloadURL);
+        return downloadURL;}
+      
+
+      
      
       
 }
